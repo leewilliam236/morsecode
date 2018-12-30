@@ -14,6 +14,7 @@ private:
     char charachter[54];
     string code[54];
     int speed;
+    int pitch;
 public:
     void assign(ifstream&);
     void print();
@@ -35,6 +36,13 @@ public:
             }
         }
     }
+    void display();
+    void displayonly(int j)
+    {
+        string word;
+        word = code[j];
+        cout << word;
+    }
     void joke();
 };
 
@@ -50,7 +58,9 @@ int main()
     }
     m.assign(morse);
     m.print();
-//    m.joke();
+    m.display();
+    m.space();
+    m.joke();
     morse.close();
     return 0;
 }
@@ -82,8 +92,16 @@ void Morse::print()
 {
     string sentence;
     char s;
+    int count, amount = 0;
+    cout << "How many times?";
+    cin >> count;
+    cin.ignore();
+    cout << "To quit, press ESC." << endl;
     cout << "Enter some words, and we will translate it in morse code (Yes, you may use punctuation!): " << endl;
-        getline(cin, sentence);
+    getline(cin, sentence);
+    while(amount < count)
+    {
+        amount++;
         for(int i = 0; i < sentence.length(); i++)
         {
             s = toupper(sentence[i]);
@@ -91,13 +109,55 @@ void Morse::print()
             {
                 if(s == charachter[j])
                 {
-//                cout << "Would you like sound?" << endl;
                     dotdashspace(j);
                     cout << " ";
                 }
             }
         }
-    cout << endl;
+        cout << endl;
+        if(amount == count)
+        {
+            break;
+        }
+        cout << "Enter some words, and we will translate it in morse code (Yes, you may use punctuation!): " << endl;
+        getline(cin, sentence);
+    }
+}
+
+void Morse::display()
+{
+    string sentence;
+    char s;
+    int count, amount = 0;
+    cout << "How many times?";
+    cin >> count;
+    cin.ignore();
+    cout << "To quit, press ESC." << endl;
+    cout << "Enter some words, and we will display the morse code! (Yes, you may use punctuation!): " << endl;
+    getline(cin, sentence);
+    while(amount < count)
+    {
+        amount++;
+        for(int i = 0; i < sentence.length(); i++)
+        {
+            s = toupper(sentence[i]);
+            for(int j = 0; j < 54; j++)
+            {
+                if(s == charachter[j])
+                {
+                    displayonly(j);
+                    cout << " ";
+                }
+            }
+        }
+        if(amount == count)
+        {
+            break;
+        }
+        cout << endl;
+        cout << "Enter some words, and we will display the morse code! (Yes, you may use punctuation!): " << endl;
+        getline(cin, sentence);
+    }
 }
 
 void Morse::joke()
