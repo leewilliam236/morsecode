@@ -13,4 +13,7 @@ I'm still working on these functions.
 
 As you can see, the project is currently under construction. I might add more to the list of what I'm working on, but I'm currently showing this project simply for feedback!
 
+To download exe or zip file (includes source code) click the link below:
+https://github.com/leewilliam236/morsecode/releases
+
 NOTE: The ESC button doesn't quit the program.
