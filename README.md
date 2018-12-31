@@ -12,3 +12,5 @@ I'm still working on these functions.
 - telegraph mode
 
 As you can see, the project is currently under construction. I might add more to the list of what I'm working on, but I'm currently showing this project simply for feedback!
+
+NOTE: The ESC button doesn't quit the program.
