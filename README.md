@@ -7,7 +7,7 @@ I've currently developed the following functions.
 
 I'm still working on these functions.
 - adjusting the speed (user can set it)
-- adjusting the pitch (user can set it
+- adjusting the pitch (user can set it)
 - typing in certain buttons to do certain commands during runtime
 - telegraph mode
 
@@ -15,5 +15,3 @@ As you can see, the project is currently under construction. I might add more to
 
 To download exe or zip file (includes source code) click the link below:
 https://github.com/leewilliam236/morsecode/releases
-
-NOTE: The ESC button doesn't quit the program.
