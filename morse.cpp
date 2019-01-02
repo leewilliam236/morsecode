@@ -5,6 +5,7 @@
 #include <cctype>
 #include <string>
 #include <Windows.h>
+#include <ctime>
 
 using namespace std;
 
@@ -13,28 +14,33 @@ class Morse
 private:
     char charachter[54];
     string code[54];
-    int speed;
-    int pitch;
+    unsigned int wpm = 100;
+    unsigned int pitch = 1000;
+    unsigned int farnsworth = 200;
 public:
+    ~Morse()
+    {
+    }
     void assign(ifstream&);
     void print();
-    void dotdashspace(int j, int pitch = 1000)
+    void dotdashspace(int j)
     {
         string word;
         word = code[j];
-        for(int i = 0; i < code[j].length(); i++)
+        for(unsigned int i = 0; i < code[j].length(); i++)
         {
             if(word[i] == '.')
             {
                 cout << ".";
-                Beep(pitch, 100);
+                Beep(pitch, wpm);
             }
             else
             {
                 cout << "_";
-                Beep(pitch, 200);
+                Beep(pitch, wpm + 100);
             }
         }
+        Sleep(farnsworth);
     }
     void display();
     void displayonly(int j)
@@ -45,6 +51,9 @@ public:
     }
     void joke();
 };
+
+char* isitnumber();
+void igotoptions(Morse&);
 
 int main()
 {
@@ -57,12 +66,88 @@ int main()
         exit(0);
     }
     m.assign(morse);
-    m.print();
-    m.display();
-    m.space();
-    m.joke();
+    cout << "leewilliam236's morsecodetranslator! v0.2-beta" << endl;
+    cout << "Hello and Welcome to my Morse Code Translator! Would you to do like me to display the code or type the code?" << endl;
+    igotoptions(m);
     morse.close();
     return 0;
+}
+
+void igotoptions(Morse& m)
+{
+    unsigned short option;
+    cout << endl <<  " 1. Display" << endl;
+    cout << " 2. Type" << endl;
+    cout << " 3. Joke" << endl;
+    cout << " 4. Quit" << endl;
+    cin >> option;
+    char yn;
+    do{
+    switch(option)
+    {
+    case 1:
+        m.display();
+        break;
+    case 2:
+        m.print();
+        break;
+    case 3:
+        m.joke();
+        break;
+    case 4:
+        cout << "See you around!" << endl;
+        exit(0);
+        break;
+    default:
+        cout << "Invalid Entry. Please enter 1, 2, 3, or 4." << endl;
+        igotoptions(m);
+        break;
+    }
+    cout << endl << "Wanna do it again? (y/n)" << endl;
+    cin >> yn;
+    if(yn == 'n')
+        igotoptions(m);
+    }while(yn == 'y' || yn == 'Y');
+}
+
+char* isitnumber()
+{
+    bool cond = false;
+    unsigned int i = 0;
+    char count[100];
+    cin.ignore();
+    do
+    {
+        char* numorlet;
+        cout << "How many times? (Enter up to 100 charachters)" << endl;
+        cin.getline(numorlet, 101);
+        strcpy(count, numorlet);
+        while(i < strlen(count))
+        {
+            if(isalpha(count[i]))
+            {
+                cout << count << " is not a number. Please enter a valid number." << endl;
+                break;
+            }
+            else if(i == strlen(count)-1)
+            {
+                if(atoi(numorlet) <= 0)
+                {
+                    cout << "You can't input a 0 or any negative number. Please enter a valid number." << endl;
+                    break;
+                }
+                else
+                {
+                    return numorlet;
+                }
+            }
+            else
+            {
+                i++;
+            }
+        }
+    }
+    while(cond == false);
 }
 
 void Morse::assign(ifstream& morse)
@@ -92,17 +177,14 @@ void Morse::print()
 {
     string sentence;
     char s;
-    int count, amount = 0;
-    cout << "How many times?";
-    cin >> count;
-    cin.ignore();
-    cout << "To quit, press ESC." << endl;
+    int amount = 0, c = 0;
+    amount = atoi(isitnumber());
     cout << "Enter some words, and we will translate it in morse code (Yes, you may use punctuation!): " << endl;
     getline(cin, sentence);
-    while(amount < count)
+    while(c < amount)
     {
-        amount++;
-        for(int i = 0; i < sentence.length(); i++)
+        c++;
+        for(unsigned int i = 0; i < sentence.length(); i++)
         {
             s = toupper(sentence[i]);
             for(int j = 0; j < 54; j++)
@@ -115,7 +197,7 @@ void Morse::print()
             }
         }
         cout << endl;
-        if(amount == count)
+        if(amount == c)
         {
             break;
         }
@@ -128,17 +210,14 @@ void Morse::display()
 {
     string sentence;
     char s;
-    int count, amount = 0;
-    cout << "How many times?";
-    cin >> count;
-    cin.ignore();
-    cout << "To quit, press ESC." << endl;
+    int amount = 0, c = 0;
+    amount = atoi(isitnumber());
     cout << "Enter some words, and we will display the morse code! (Yes, you may use punctuation!): " << endl;
     getline(cin, sentence);
-    while(amount < count)
+    while(c < amount)
     {
-        amount++;
-        for(int i = 0; i < sentence.length(); i++)
+        c++;
+        for(unsigned int i = 0; i < sentence.length(); i++)
         {
             s = toupper(sentence[i]);
             for(int j = 0; j < 54; j++)
@@ -150,7 +229,7 @@ void Morse::display()
                 }
             }
         }
-        if(amount == count)
+        if(c == amount)
         {
             break;
         }
@@ -162,14 +241,25 @@ void Morse::display()
 
 void Morse::joke()
 {
-    int i = 0;
+    cin.ignore();
+    int i = 0, j = 0;
     cout << endl << "How do you play the intro of Beethoven's 5th Symphony in C Minor?";
     cin.get();
-    cout << endl;
-    while(i < 2)
+    while(i < 3)
     {
-        dotdashspace(21, 425);
-        cout << " ";
+        cout << ".";
+        Beep(420, 100);
         i++;
     }
+    cout << "_";
+    cout << " ";
+    Beep(350, 1500);
+    while(j < 3)
+    {
+        cout << ".";
+        Beep(385, 300);
+        j++;
+    }
+    cout << "_";
+    Beep(325, 2000);
 }
