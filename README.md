@@ -16,4 +16,4 @@ As you can see, the project is currently under construction. I might add more to
 To download exe or zip file (includes source code) click the link below:
 https://github.com/leewilliam236/morsecode/releases
 
-NOTE: The beeps and sleep function only work on Windows!
+NOTE: The beeps and sleep function only work on Windows! So Unfortunately, it's not going to work in Mac or Linus OS at the moment.
